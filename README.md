@@ -15,8 +15,8 @@ You have to notify django of the new installation in `django_project/settings.py
 
 in the `INSTALLED_APPS` section add `rest_framework`
 
+`django_project/settings.py`
 ```
-# django_project/settings.py
 INSTALLED_APPS = [
 "django.contrib.admin",
 "django.contrib.auth",
@@ -31,3 +31,26 @@ INSTALLED_APPS = [
 ]
 ```
 
+Create an app for the project
+
+$ Shell
+```
+(env) > python manage.py startapp apis
+```
+
+`django_project/settings.py`
+```
+INSTALLED_APPS = [
+"django.contrib.admin",
+"django.contrib.auth",
+"django.contrib.contenttypes",
+"django.contrib.sessions",
+"django.contrib.messages",
+"django.contrib.staticfiles",
+# 3rd party
+"rest_framework",
+# Local
+"books.apps.BooksConfig",
+"apis.apps.ApisConfig", # new
+]
+```
