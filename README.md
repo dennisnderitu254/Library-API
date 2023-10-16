@@ -54,3 +54,9 @@ INSTALLED_APPS = [
 "apis.apps.ApisConfig", # new
 ]
 ```
+
+Adding an API endpoint is just like configuring a traditional
+Django URL route.
+
+In the project-level `django_project/urls.py` file `include` the `apis app` and configure its URL route, which will be at `api/`
+
