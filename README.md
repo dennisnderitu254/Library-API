@@ -134,4 +134,68 @@ class that specifies our database model, Book , and the database fields we want 
 
 Raw JSON data is not particularly friendly to consume with human eyes
 
+Django REST Framework ships with a built-in browsable API that displays both the content and HTTP verbs associated with a given endpoint.
+
+$ Shell
+```
+(.venv) > python manage.py runserver
+```
+
+- location of our API endpoint is at `http://127.0.0.1:8000/api/` so navigate there in your web browser.
+
+**Add Image**
+
+Django REST Framework provides this visualization by default. It displays the HTTP status code for the page, which is 200 meaning OK . Specifies Content-Type is JSON. And displays the information for our single book entry in a formatted manner.
+
+**Add Image**
+
+The Above data is not formatted at all and we can’t see any additional
+information about HTTP status or allowable verbs either. I think we can agree the Django REST Framework version is more appealing.
+
+Professional developers typically use on a third-party tool such as `Postman`  or, if on a Mac, Paw , to test and consume APIs. But for our purposes in this book the built-in browsable API is more than enough.
+
+### Tests
+
+Testing in Django relies upon Python’s built-in `unittest`, module and several helpful Django-specific extensions. Most notably, Django comes with a `test client` that we can use to simulate GET or POST requests, check the chain of redirects in a web request, and check that a given
+Django template is being used and has the proper template context data.
+
+Django REST Framework provides `several additional helper classes` that extend Django’s existing test framework. One of these is `APIClient` , an extension of Django’s default `Client` , which we will use to test retrieving API data from our database.
+
+Since we already have tests in `books/tests.py` for our Book model we can focus on testing the API endpoint, specifically that it uses the URL we expect, has the correct status code of `200`, and contains the correct content.
+
+Open the apis/tests.py file with your text editor and fill in the following code which we will review below.
+
+```
+https://www.postman.com/
+https://paw.cloud/
+https://docs.python.org/3/library/unittest.html#module-unittest
+https://docs.djangoproject.com/en/4.0/topics/testing/tools/#the-test-client
+https://www.django-rest-framework.org/api-guide/testing/
+```
+
+`api/tests.py`
+
+```
+from django.urls import reverse
+from rest_framework import status
+from rest_framework.test import APITestCase
+
+from books.models import Book
+
+class APITests(APITestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.book = Book.objects.create(
+        title="Django for APIs",
+        subtitle="Build web APIs with Python and Django",
+        author="William S. Vincent",
+        isbn="9781735467221",
+        )
+
+    def test_api_listview(self):
+        response = self.client.get(reverse("book_list"))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Book.objects.count(), 1)
+        self.assertContains(response, self.book)
+```
 
