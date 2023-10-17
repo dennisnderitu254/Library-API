@@ -229,3 +229,59 @@ Ran 1 test in 0.005s
 OK
 Destroying test database for alias 'default'...
 ```
+
+### Static Files
+
+Static files are somewhat tricky to deploy properly on Django projects but the good news is that the process for Django APIs is essentially the same. Even though we do not have any of our own at this point, there are static files included in the Django admin and Django REST Framework browsable API so in order for those to deploy properly we must configure all static files.
+
+First we need to create a dedicated static directory.
+
+$ Shell
+```
+(env) > mkdir static
+```
+
+Git will not track empty directories so it’s important to add a `.keep` file so the static directory is included in source control.
+
+Then we’ll install the `WhiteNoise` package since Django does not support serving static files in production itself.
+
+$ Shell
+```
+(.venv) > python -m pip install whitenoise==6.0.0
+```
+
+WhiteNoise must be added to `django_project/settings.py` in the following locations:
+
+• whitenoise above `django.contrib.staticfiles` in `INSTALLED_APPS`
+• `WhiteNoiseMiddleware` above `CommonMiddleware`
+• `STATICFILES_STORAGE` configuration pointing to WhiteNoise
+
+In `django_project/settings.py`:
+
+```
+# django_project/settings.py
+INSTALLED_APPS = [
+    ...
+    "whitenoise.runserver_nostatic",
+    "django.contrib.staticfiles",
+]
+# new
+MIDDLEWARE = [
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware", # new
+    ...
+]
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [BASE_DIR / "static"] # new
+STATIC_ROOT = BASE_DIR / "staticfiles" # new
+STATICFILES_STORAGE =
+"whitenoise.storage.CompressedManifestStaticFilesStorage" # new
+```
+
+The last step is to run the collectstatic command for the first time to compile all the static file directories and files into one self-contained unit suitable for deployment.
+
+$ Shell
+```
+(.venv) > python manage.py collectstatic
+```
