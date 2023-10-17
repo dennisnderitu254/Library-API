@@ -60,3 +60,45 @@ Django URL route.
 
 In the project-level `django_project/urls.py` file `include` the `apis app` and configure its URL route, which will be at `api/`
 
+`django_project/urls.py`
+
+```
+from django.contrib import admin
+from django.urls import path, include
+urlpatterns = [
+path("admin/", admin.site.urls),
+path("api/", include("apis.urls")),
+path("", include("books.urls")),
+]
+```
+
+### Urls
+
+Create a new file called `api/urls.py`
+
+This file will import a future view called `BookAPIView` and set it to the URL route of "" so it will appear at `api/`
+
+`apis/urls.py`
+
+```
+from django.urls import path
+from .views import BookAPIView
+urlpatterns = [
+path("", BookAPIView.as_view(), name="book_list"),
+]
+```
+
+### Views
+
+Update the `apis/views.py`
+
+```
+from rest_framework import generics
+from books.models import Book
+from .serializers import BookSerializer
+
+class BookAPIView(generics.ListAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+```
+
