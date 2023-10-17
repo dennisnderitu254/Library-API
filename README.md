@@ -403,3 +403,10 @@ $ Shell
 Creating � wsvincent-library... done
 https://sample-library.herokuapp.com/ | https://git.heroku.com/sample-library.git
 ```
+
+$ Shell
+```
+(.venv) > git push heroku main
+(.venv) > heroku ps:scale web=1
+```
+
