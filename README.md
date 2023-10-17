@@ -230,6 +230,40 @@ OK
 Destroying test database for alias 'default'...
 ```
 
+### Deployment
+
+Heroku will be used here
+
+Create a Heroku A/C
+
+Using `Heroku’s Command Line Interface (CLI)` - deploy from the command
+line. Currently, we are operating within a virtual environment for our Library project but we want Heroku available globally, that is everywhere on our machine. An easy way to do so is open up a new command line tab– Control+t on Windows, Command+t on a Mac–which is not operating in a virtual environment. Anything installed here will be global.
+
+
+`Install Heroku on Ubuntu`
+
+$ Shell
+```
+(.venv) > heroku --version
+heroku/7.59.2 darwin-x64 node-v12.21.0
+```
+
+If you see an error message here on VSCode for Windows about “the term ‘heroku’ is notrecognized…” it is likely a permissions issue. Try opening up the PowerShell app directly and executing heroku --version . It should work properly.
+
+Once you have seen the installed version of Heroku, type the command heroku login and use the email and password for Heroku you just set.
+
+$ Shell
+```
+(.venv) > heroku login
+Enter your Heroku credentials:
+Email: sample@gmail.com.com
+Password: *********************************
+Logged in as sample@gmail.com
+```
+
+You need to verify your credentials on the Heroku website but once the terminal shell confirms your log in you are ready to proceed.
+
+
 ### Static Files
 
 Static files are somewhat tricky to deploy properly on Django projects but the good news is that the process for Django APIs is essentially the same. Even though we do not have any of our own at this point, there are static files included in the Django admin and Django REST Framework browsable API so in order for those to deploy properly we must configure all static files.
