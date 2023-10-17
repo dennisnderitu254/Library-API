@@ -112,3 +112,26 @@ The steps required in our view were to specify the queryset , which is all avail
 
 A `Serializer` translates complex data like querysets and model instances into a format that is easy to consume over the internet, typically JSON. It is also possible to “deserialize” data, literally the same process in reverse, whereby JSON data is first validated and then transformed into a dictionary.
 
+The real beauty of Django REST Framework lies in its serializers which abstracts away most of the complexity for us. We will cover serialization and JSON in more depth in future chapters but for now the goal is to demonstrate how easy it is to create a serializer with Django REST Framework.
+
+`apis/serializers.py`
+
+```
+from rest_framework import serializers
+from books.models import Book
+
+class BookSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = ("title", "subtitle", "author", "isbn")
+```
+
+On the top lines we import Django REST Framework’s serializers class and the Book model from
+our books app. Next, we extend Django REST Framework’s ModelSerializer into a `BookSerializer`
+class that specifies our database model, Book , and the database fields we want to expose of `title` , `subtitle` , `author` , and `isbn`.
+
+### Browsable API
+
+Raw JSON data is not particularly friendly to consume with human eyes
+
+
