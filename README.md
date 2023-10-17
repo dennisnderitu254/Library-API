@@ -102,3 +102,13 @@ class BookAPIView(generics.ListAPIView):
     serializer_class = BookSerializer
 ```
 
+On the top lines, I imported Django REST Framework’s generics class of views, the `Book` model from our `books` app, and `serializers` from our `api` app. We will create the serializer used here, `BookSerializer` , in the following section.
+
+Then I create a view class called `BookAPIView` that uses ListAPIView to create a read-only endpoint for all book instances.
+
+The steps required in our view were to specify the queryset , which is all available books, and then the `serializer_class` which will be BookSerializer.
+
+### Serializers
+
+A `Serializer` translates complex data like querysets and model instances into a format that is easy to consume over the internet, typically JSON. It is also possible to “deserialize” data, literally the same process in reverse, whereby JSON data is first validated and then transformed into a dictionary.
+
