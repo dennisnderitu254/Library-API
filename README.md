@@ -1,4 +1,4 @@
-# Library API Development using the django REST Framework
+# Library API Development using the Django REST Framework
 
 ## Project Setup
 
