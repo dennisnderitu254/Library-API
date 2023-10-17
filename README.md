@@ -286,9 +286,9 @@ $ Shell
 
 WhiteNoise must be added to `django_project/settings.py` in the following locations:
 
-• whitenoise above `django.contrib.staticfiles` in `INSTALLED_APPS`
-• `WhiteNoiseMiddleware` above `CommonMiddleware`
-• `STATICFILES_STORAGE` configuration pointing to WhiteNoise
+- whitenoise above `django.contrib.staticfiles` in `INSTALLED_APPS`
+- `WhiteNoiseMiddleware` above `CommonMiddleware`
+- `STATICFILES_STORAGE` configuration pointing to WhiteNoise
 
 In `django_project/settings.py`:
 
