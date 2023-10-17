@@ -199,3 +199,33 @@ class APITests(APITestCase):
         self.assertContains(response, self.book)
 ```
 
+At the top we import reverse from Django and from Django REST Framework both status and APITestCase . We also import our Book model though note that since we are in the api app we must specify the app name of book to import it.
+
+We extend APITestCase in a new class called APITests that starts by configuring set up data. Then we run four different checks. First we check that the named URL of “book_list” is being used. Second we confirm that HTTP status code matches 200. Third we check that there is a single entry in the database. And finally we confirm that the response contains all the data from our created book object.
+
+$ Shell
+```
+(env) > python manage.py test
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+...
+----------------------------------------------------------------------
+Ran 3 tests in 0.009s
+OK
+Destroying test database for alias 'default'...
+```
+
+Note that the output describes three tests passing because we had two in books/tests.py and one here. In larger websites with hundreds or even thousands of tests, performance can become an issue and sometimes you want to check just test within a given app before running the full
+website test suite. To do that, simply add the name of the app you wish to check to the end of python manage.py test.
+
+$ Shell
+```
+(env) > python manage.py test apis
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.005s
+OK
+Destroying test database for alias 'default'...
+```
