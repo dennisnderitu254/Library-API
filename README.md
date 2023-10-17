@@ -319,3 +319,87 @@ $ Shell
 ```
 (.venv) > python manage.py collectstatic
 ```
+
+### Deployment Checklist
+
+For a basic deployment we have five items on our deployment checklist:
+
+- install `Gunicorn` as the production web server
+- create a requirements.txt file
+- create a runtime.txt file
+- update the ALLOWED_HOSTS configuration
+- create a Procfile for Heroku
+
+Django’s built-in web server is fine for local testing but either Gunicorn or `uWSGI` should be used in production. Since Gunicorn is the simpler of the two to use, it will be our choice. Install
+it via Pip.
+
+$ Shell
+```
+(.venv) > python -m pip install gunicorn~=20.1.0
+```
+
+In the previous chapter we created a `requirements.txt` file but we have since installed Django REST Framework and Gunicorn in our virtual environment. Neither is reflected in the current file. It is simple enough though to simply run the command again with the > operator to update it.
+
+```
+https://gunicorn.org/
+https://uwsgi-docs.readthedocs.io/en/latest/
+```
+
+$ Shell
+```
+(.venv) > python -m pip freeze > requirements.txt
+```
+
+The third step is to create a runtime.txt file in the root directory, next to requirements.txt , that specifies what version of Python to run on Heroku. If not set explicitly this is currently set to the python-3.9.10 runtime but changes over time.
+
+Since we are using Python 3.10 we must create a dedicated runtime.txt  file to use it. In your text editor, create this new runtime.txt file at the project-level meaning it is in the same directory as the manage.py file. As of this writing, the latest version is `3.10.2` . `Make sure everything is lowercased!`
+
+`runtime.txt`
+```
+python-3.10.2
+```
+
+The fourth step is to update `ALLOWED_HOSTS` . By default it is set to accept all hosts but we want to restrict access on a live website and API. We want to be able to use either `localhost` or `127.0.0.1`
+locally and we also know that any Heroku site will end with `.herokuapp.com` . Add all three hosts to our `ALLOWED_HOSTS` configuration.
+
+`# django_project/settings.py`
+
+```
+ALLOWED_HOSTS = [".herokuapp.com", "localhost", "127.0.0.1"]
+```
+
+And the final step in your text editor is to create a new `Procfile` in the project root directory next to the `manage.py` file. This is a file specifically for Heroku that provides instructions for running
+our website. We’re telling it to use Gunicorn as the webserver, look for the WSGI configuration in `django_project.wsgi` , and also to output log files which is an optional but helpful additional
+config.
+
+```
+https://devcenter.heroku.com/articles/python-support#specifying-a-python-version
+https://devcenter.heroku.com/articles/python-runtimes
+```
+
+`Procfile`
+```
+web: gunicorn django_project.wsgi --log-file -
+```
+
+`Shell`
+```
+(.venv) > git status
+(.venv) > git add -A
+(.venv) > git commit -m "New updates for Heroku deployment"
+```
+
+### GitHub
+```
+(.venv) > git remote add origin https://github.com/<GithubUsername>/library-API.git
+(.venv) > git push -u origin main
+```
+
+### Heroku
+
+$ Shell
+```
+(.venv) > heroku create sample-library
+Creating � wsvincent-library... done
+https://sample-library.herokuapp.com/ | https://git.heroku.com/sample-library.git
+```
