@@ -393,6 +393,7 @@ web: gunicorn django_project.wsgi --log-file -
 ```
 (.venv) > git remote add origin https://github.com/<GithubUsername>/library-API.git
 (.venv) > git push -u origin main
+(.venv) > git push -u origin main
 ```
 
 ### Heroku
